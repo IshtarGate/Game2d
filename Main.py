@@ -22,16 +22,19 @@ print(jakesClass.position) #print the updated jakesClass.position
 
 #IMPORTS
 
-import pygame
+import pygame, basicEnemy
+
 
 
 #INITIAL VARIABLES
 pygame.init()
-size = width, height = 300, 200
-screen=pygame.display.set_mode(size)
+screenSize = width, height = 300, 200
+screen=pygame.display.set_mode(screenSize)
 
 isRunning=1
 initialized=0
+
+enemiesList=[]
 
 #STARTING POSITIONS
 
@@ -41,7 +44,7 @@ ball1Pos=[width/2, height/2]
 
 
 #KEYS
-pygame.key.set_repeat (1, 1)
+pygame.key.set_repeat(0, 0)
 
 #COLORS
 black=(0,0,0)
@@ -84,6 +87,11 @@ while isRunning:
         player1Pos[1]-=1
     if keys[pygame.K_s]:#down or +y
         player1Pos[1]+=1
+    if keys[pygame.K_e]:
+        enemiesList.append(basicEnemy.BasicEnemy(player1Pos))
+    if keys[pygame.K_r]:
+        for i in list(range(len(enemiesList))):
+            enemiesList[i].update()
 
     #PLAYER 2 CONTROLS
     #def player2controls(keys)
@@ -114,7 +122,10 @@ while isRunning:
     pygame.draw.circle(screen, green, (player1Pos[0], player1Pos[1]), 20, 1)
     pygame.draw.rect(screen, red, [player2Pos[0],player2Pos[1], 2, 2], 0)
     pygame.draw.rect(screen, white, [ball1Pos[0],ball1Pos[1], 2, 2], 0)
-
+    #draw enemies
+    for i in list(range(len(enemiesList))):
+        pygame.draw.rect(screen,white, [enemiesList[i].position[0],enemiesList[i].position[1],2,2],0)
+        #pygame.draw.rect(screen, white, [enemiesList[i].position[0],enemiesList[i].position[0], 2, 2], 0)
     #pygame.draw.circle(screen,white,newPlayerPos,20 , 1)
     #circle(Surface, color, pos, radius, width=0)
     #key presses
@@ -129,17 +140,10 @@ pygame.quit(); #idle friendly
 #     1)isRunning=0 #change isRunning to false(x button)
 #     2)isRunning=0 #escape ends the game (escape button)
    
-# return playerPos,playerSpeed,playerMoveInitialized
-
 
 #         if event.type == pygame.KEYDOWN:
 #            isRunning=0
 #         if event.key == pygame.K_a:
 #             playerPos[0]-=1
-#         if event.key == pygame.K_d:
-#             playerPos[0]+=1
-#         if event.key == pygame.K_w:
-#             playerPos[1]-=1
-#         if event.key == pygame.K_s:
-#             playerPos[1]+=1
+
 
