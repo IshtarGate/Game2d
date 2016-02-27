@@ -21,9 +21,14 @@ jakesClass.update() # call the MyClass method "MyClass.update" in this case "jak
 print(jakesClass.position) #print the updated jakesClass.position
 """
 class BasicEnemy:
-    def __init__(self,position):
+    def __init__(self,position,life):
         self.position=list(position)
-    def update(self):
+        self.life=life
+        self.isAlive=1
+    def update(self,player2Pos,playerSize):
         self.position[0]=self.position[0]+1
-        
-
+        self.life=self.life-1
+        if ((player2Pos[0]-self.position[0])**2+(player2Pos[1]-self.position[1])**2)**0.5<playerSize:
+            self.isAlive=0
+        if self.life<=0:
+            self.isAlive=0
