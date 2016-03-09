@@ -7,7 +7,7 @@
 
 #IMPORTS
 
-import pygame, basicEnemy
+import pygame, BasicObjects
 
 
 
@@ -19,7 +19,7 @@ screen=pygame.display.set_mode(screenSize)
 isRunning=1
 initialized=0
 
-enemiesList=[]
+enemiesList = []
 
 #STARTING POSITIONS
 
@@ -32,11 +32,11 @@ ball1Pos=[width/2, height/2]
 pygame.key.set_repeat(0, 0)
 
 #COLORS
-black=(0,0,0)
-white=(255,255,255)
-red=(255,0,0)
-blue=(75,75,255)
-green=(0,255,0)
+black = ( 0, 0, 0)
+white = ( 255, 255, 255)
+red = ( 255, 0, 0)
+blue = (75, 75, 255)
+green = ( 0, 255, 0)
 
 #Some Static Vars
 playerSize = 20
@@ -81,7 +81,7 @@ while isRunning:
     #fire bullet/ create enemy
     if keys[pygame.K_j]:
         #this appends an instance of the BasicEnemy class to enemiesList
-        enemiesList.append(basicEnemy.BasicEnemy(player1Pos,bulletLife))
+        enemiesList.append(BasicObjects.BasicEnemy(player1Pos, bulletLife))
     #if keys[pygame.K_r]:
     for i in list(range(len(enemiesList)-1,-1,-1)):
         enemiesList[i].update(player2Pos,playerSize)
@@ -131,7 +131,7 @@ while isRunning:
     pygame.display.flip()
     initialized=1
 
-pygame.quit(); #idle friendly
+pygame.quit() #idle friendly
 
 """
 # Ways to quit the game: 
