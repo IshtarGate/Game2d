@@ -35,6 +35,8 @@ green = (0, 255, 0)
 playerSize = 20
 bulletLife = 600
 
+# INITIATE CLASSES
+player2 = BasicObjects.Player2(player2Pos, 100)
 # SET UP FPS CLOCK
 # http://www.pygame.org/docs/ref/time.html
 clock = pygame.time.Clock()  # set up the object "clock" from class "pygame.time.Clock()"
@@ -72,37 +74,39 @@ while isRunning:
     if keys[pygame.K_j]:
         # this appends an instance of the BasicEnemy class to enemiesList
         enemiesList.append(BasicObjects.Bullet(player1Pos, bulletLife))
-    # if keys[pygame.K_r]:
-    for i in list(range(len(enemiesList) - 1, -1, -1)):
-        enemiesList[i].update(player2Pos, playerSize)
-        if enemiesList[i].isAlive == 0:  # test
-            enemiesList.pop(i)
+
 
     # PLAYER 2 CONTROLS
+    player2.update(keys)
     # def player2controls(keys)
-    if keys[pygame.K_KP4]:  # left or -x
-        player2Pos[0] -= 1
-    if keys[pygame.K_KP6]:  # right or +x
-        player2Pos[0] += 1
-    if keys[pygame.K_KP8]:  # up or -y
-        player2Pos[1] -= 1
-    if keys[pygame.K_KP5]:  # down or +y
-        player2Pos[1] += 1
+    # if keys[pygame.K_KP4]:  # left or -x
+    #     player2Pos[0] -= 1
+    # if keys[pygame.K_KP6]:  # right or +x
+    #     player2Pos[0] += 1
+    # if keys[pygame.K_KP8]:  # up or -y
+    #     player2Pos[1] -= 1
+    # if keys[pygame.K_KP5]:  # down or +y
+    #     player2Pos[1] += 1
     # return player2Pos
     # player2Pos = player2Controls(keys)
 
-    # Ball Movement
-
+    # BALL MOVEMENT
     if abs(player1Pos[0] - ball1Pos[0]) <= 20:
         if abs(player1Pos[1] - ball1Pos[1]) <= 20:
             ball1Pos[0] += 1
+
+    # BULLET INTERACTION
+    for i in list(range(len(enemiesList) - 1, -1, -1)):
+        enemiesList[i].update(player2.position, playerSize)
+        if enemiesList[i].isAlive == 0:  # test
+            enemiesList.pop(i)
 
     # DRAW OBJECTS
 
     # pygame.draw.rect(screen, green, [player1Pos[0] - playerSize/2,
     # player1Pos[1] - playerSize/2, playerSize/2, playerSize/2], 0)
     pygame.draw.circle(screen, green, player1Pos, playerSize, 0)
-    pygame.draw.circle(screen, red, (player2Pos[0], player2Pos[1]), playerSize, 0)
+    pygame.draw.circle(screen, red, player2.position, playerSize, 0)
     # pygame.draw.rect(
     # screen, red, [player2Pos[0]-playerSize/2,player2Pos[1]-playerSize/2, playerSize+1, playerSize+1], 0)
     pygame.draw.rect(screen, white, [ball1Pos[0], ball1Pos[1], 2, 2], 0)
