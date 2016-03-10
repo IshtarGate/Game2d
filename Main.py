@@ -60,7 +60,6 @@ while isRunning:
         isRunning = 0  # escape ends the game
 
     # PLAYER 1 CONTROLS
-
     if keys[pygame.K_a]:  # left or -x
         player1Pos[0] -= 1
     if keys[pygame.K_d]:  # right or +x
