@@ -72,7 +72,7 @@ while isRunning:
     # fire bullet/ create enemy
     if keys[pygame.K_j]:
         # this appends an instance of the BasicEnemy class to enemiesList
-        enemiesList.append(BasicObjects.BasicEnemy(player1Pos, bulletLife))
+        enemiesList.append(BasicObjects.Bullet(player1Pos, bulletLife))
     # if keys[pygame.K_r]:
     for i in list(range(len(enemiesList) - 1, -1, -1)):
         enemiesList[i].update(player2Pos, playerSize)
@@ -104,7 +104,8 @@ while isRunning:
     # player1Pos[1] - playerSize/2, playerSize/2, playerSize/2], 0)
     pygame.draw.circle(screen, green, player1Pos, playerSize, 0)
     pygame.draw.circle(screen, red, (player2Pos[0], player2Pos[1]), playerSize, 0)
-    # pygame.draw.rect(screen, red, [player2Pos[0]-playerSize/2,player2Pos[1]-playerSize/2, playerSize+1, playerSize+1], 0)
+    # pygame.draw.rect(
+    # screen, red, [player2Pos[0]-playerSize/2,player2Pos[1]-playerSize/2, playerSize+1, playerSize+1], 0)
     pygame.draw.rect(screen, white, [ball1Pos[0], ball1Pos[1], 2, 2], 0)
 
     # draw enemies

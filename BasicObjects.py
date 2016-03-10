@@ -20,7 +20,7 @@ print(jakesClass.position)#print the variable "jakesClass.position"
 jakesClass.update() # call the MyClass method "MyClass.update" in this case "jakesClass.update"
 print(jakesClass.position) #print the updated jakesClass.position
 """
-class BasicEnemy:
+class Bullet:
     def __init__(self,position,life):
         self.position=list(position)
         self.life=life
