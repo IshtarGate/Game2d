@@ -21,6 +21,7 @@ player1Pos = [int(width / 3), int(height / 2)]
 player2Pos = [2 * int(width / 3), int(height / 2)]
 ball1Pos = [width / 2, height / 2]
 
+
 # KEYS
 pygame.key.set_repeat(0, 0)
 
@@ -72,8 +73,11 @@ while isRunning:
         player1Pos[1] += 1
     # fire bullet/ create enemy
     if keys[pygame.K_j]:
+
+        #if shootWait=0 # add a wait timer
         # this appends an instance of the BasicEnemy class to enemiesList
         enemiesList.append(BasicObjects.Bullet(player1Pos, bulletLife))
+
 
 
     # PLAYER 2 CONTROLS

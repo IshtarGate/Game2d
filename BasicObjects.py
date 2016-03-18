@@ -43,6 +43,28 @@ class Player2:
         if keys[pygame.K_KP5]:  # down or +y
             self.position[1] += 1
 
+class Player1:
+    def __init_(self,position,life,fireRateCountDown):
+        self.position=list(position)
+        self.life=life
+        self.isAlive=1
+        self.fireRateCountDown=fireRateCountDown
+
+    def update(self,keys):
+        if keys[pygame.K_KP4]:  # left or -x
+            self.position[0] -= 1
+        if keys[pygame.K_KP6]:  # right or +x
+            self.position[0] += 1
+        if keys[pygame.K_KP8]:  # up or -y
+            self.position[1] -= 1
+        if keys[pygame.K_KP5]:  # down or +y
+            self.position[1] += 1
+
+class Timer:
+    def __init__(self,frames):
+        self.frames=frames
+    def update(self):
+        self.frames=self.frames-1
 
 # END OF FILE
 
