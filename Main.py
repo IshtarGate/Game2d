@@ -1,5 +1,5 @@
 """
-This is a simple game composed James Hounshell in loving collaboration with Jake Truelove
+This is a simple game composed by James Hounshell in loving collaboration with Jake Truelove
 """
 
 # IMPORTS
