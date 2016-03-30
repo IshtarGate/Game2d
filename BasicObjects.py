@@ -66,6 +66,128 @@ class Timer:
     def update(self):
         self.frames=self.frames-1
 
+class GameState:
+    def __init__(self):
+        # INITIAL VARIABLES
+        self.screenSize = width, height = 300, 200
+        self.screen = pygame.display.set_mode(self.screenSize)
+        self.isRunning = 1
+        self.initialized = 0
+        self.enemiesList = []
+
+        # STARTING POSITIONS
+
+        self.player1Pos = [int(width / 3), int(height / 2)]
+        self.player2Pos = [2 * int(width / 3), int(height / 2)]
+        self.ball1Pos = [width / 2, height / 2]
+
+
+        # KEYS
+        pygame.key.set_repeat(0, 0)
+
+        # COLORS
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+        self.red = (255, 0, 0)
+        self.blue = (75, 75, 255)
+        self.green = (0, 255, 0)
+
+        # Some Static Vars
+        self.playerSize = 20
+        self.bulletLife = 600
+
+        # INITIATE CLASSES
+        self.player2 = Player2(self.player2Pos, 100)
+        # SET UP FPS CLOCK
+        # http://www.pygame.org/docs/ref/time.html
+        self.clock = pygame.time.Clock()  # set up the object "clock" from class "pygame.time.Clock()"
+
+    def update(self):
+        # Set Framerate
+        self.clock.tick(60)  # set the game to never run faster than 60 FPS
+
+        for self.event in pygame.event.get():
+            # ENDGAME
+            if self.event.type == pygame.QUIT:
+                self.isRunning = 0  # change self.isRunning to false
+
+        # Set the initial color of the screen
+        self.screen.fill(self.black)
+
+        # CONTROLS
+        self.keys = pygame.key.get_pressed()  # get incoming keys every frame
+        # this seems more responsive than the "if event.key == pygame.K_a:" shit
+
+        # Exit Game
+        if self.keys[pygame.K_ESCAPE]:  # end the game
+            self.isRunning = 0  # escape ends the game
+
+        # PLAYER 1 CONTROLS
+        if self.keys[pygame.K_a]:  # left or -x
+            self.player1Pos[0] -= 1
+        if self.keys[pygame.K_d]:  # right or +x
+            self.player1Pos[0] += 1
+        if self.keys[pygame.K_w]:  # up or -y
+            self.player1Pos[1] -= 1
+        if self.keys[pygame.K_s]:  # down or +y
+            self.player1Pos[1] += 1
+        # fire bullet/ create enemy
+        if self.keys[pygame.K_j]:
+
+            #if shootWait=0 # add a wait timer
+            # this appends an instance of the BasicEnemy class to self.enemiesList
+            self.enemiesList.append(Bullet(self.player1Pos, self.bulletLife))
+
+
+
+        # PLAYER 2 CONTROLS
+        self.player2.update(self.keys)
+        # def self.player2controls(keys)
+        # if keys[pygame.K_KP4]:  # left or -x
+        #     self.self.player2Pos[0] -= 1
+        # if keys[pygame.K_KP6]:  # right or +x
+        #     self.self.player2Pos[0] += 1
+        # if keys[pygame.K_KP8]:  # up or -y
+        #     self.self.player2Pos[1] -= 1
+        # if keys[pygame.K_KP5]:  # down or +y
+        #     self.self.player2Pos[1] += 1
+        # return self.self.player2Pos
+        # self.self.player2Pos = self.player2Controls(keys)
+
+        # BALL MOVEMENT
+        if abs(self.player1Pos[0] - self.ball1Pos[0]) <= 20:
+            if abs(self.player1Pos[1] - self.ball1Pos[1]) <= 20:
+                self.ball1Pos[0] += 1
+
+        # BULLET INTERACTION
+        for i in list(range(len(self.enemiesList) - 1, -1, -1)):
+            self.enemiesList[i].update(self.player2.position, self.playerSize)
+            if self.enemiesList[i].isAlive == 0:  # test
+                self.enemiesList.pop(i)
+
+        # DRAW OBJECTS
+
+        # pygame.draw.rect(self.screen, self.green, [self.player1Pos[0] - self.playerSize/2,
+        # self.player1Pos[1] - self.playerSize/2, self.playerSize/2, self.playerSize/2], 0)
+        pygame.draw.circle(self.screen, self.green, self.player1Pos, self.playerSize, 0)
+        pygame.draw.circle(self.screen, self.red, self.player2.position, self.playerSize, 0)
+        # pygame.draw.rect(
+        # self.screen, self.red, [self.self.player2Pos[0]-self.playerSize/2,self.self.player2Pos[1]-self.playerSize/2, self.playerSize+1, self.playerSize+1], 0)
+        pygame.draw.rect(self.screen, self.white, [self.ball1Pos[0], self.ball1Pos[1], 2, 2], 0)
+
+        # draw enemies
+        for i in list(range(len(self.enemiesList))):
+            pygame.draw.rect(self.screen, self.white, [self.enemiesList[i].position[0], self.enemiesList[i].position[1], 2, 2], 0)
+            # pygame.draw.rect(self.screen, self.white, [self.enemiesList[i].position[0],self.enemiesList[i].position[0], 2, 2], 0)
+        # pygame.draw.circle(self.screen,self.white,self.player1Pos,20 , 1)
+        # circle(Surface, color, pos, radius, width=0)
+        # key presses
+
+        pygame.display.flip()
+        self.initialized = 1
+        return self.isRunning
+
+
 # END OF FILE
 
 """
