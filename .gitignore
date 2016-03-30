@@ -61,5 +61,10 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+<<<<<<< HEAD
 #pycharm files
 .idea/
+=======
+#intellij files
+.idea\workspace.xml
+>>>>>>> b8a8fa9eb95e040c52b7165e55cd8844ef43319e
