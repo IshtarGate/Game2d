@@ -67,6 +67,9 @@ class Timer:
         self.frames=self.frames-1
 
 class GameState:
+    """
+    GameState is a class that is called once per loop that manages all initialized variables and work to draw the game
+    """
     def __init__(self):
         # INITIAL VARIABLES
         self.screenSize = width, height = 300, 200
