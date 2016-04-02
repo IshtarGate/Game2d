@@ -67,6 +67,8 @@ class Bullet:
             self.isAlive = 0
         if self.life <= 0:
             self.isAlive = 0
+
+        # draw the bullet
         pygame.draw.line(self.surface, (255,255,255), self.position,self.position, 1)
 
 
@@ -139,7 +141,7 @@ class GameState:
         self.ball1Pos = [width / 2, height / 2]
 
         # KEYS
-        pygame.key.set_repeat(0, 0)
+        #pygame.key.set_repeat(0, 0)
 
         # COLORS
         self.black = (0, 0, 0)
