@@ -62,10 +62,11 @@ class Player2:
     Test Docstring
     """
 
-    def __init__(self, position, life):
+    def __init__(self,screen, position, life):
         self.position = list(position)
         self.life = life
         self.isAlive = 1
+        self.screen = screen
 
     def update(self, keys):
         # PLAYER 2 CONTROLS
@@ -78,7 +79,7 @@ class Player2:
             self.position[1] -= 1
         if keys[pygame.K_KP5]:  # down or +y
             self.position[1] += 1
-
+        pygame.draw.circle(self.screen, (255,0,0), self.position, 20, 0)
 
 class Player1:
     def __init_(self, position, life, fireRateCountDown):
@@ -140,7 +141,7 @@ class GameState:
         self.bulletLife = 600
 
         # INITIATE CLASSES
-        self.player2 = Player2(self.player2Pos, 100)
+        self.player2 = Player2(self.screen,self.player2Pos, 100)
         # SET UP FPS CLOCK
         # http://www.pygame.org/docs/ref/time.html
         self.clock = pygame.time.Clock()  # set up the object "clock" from class "pygame.time.Clock()"
@@ -216,7 +217,7 @@ class GameState:
         # pygame.draw.rect(self.screen, self.green, [self.player1Pos[0] - self.playerSize/2,
         # self.player1Pos[1] - self.playerSize/2, self.playerSize/2, self.playerSize/2], 0)
         pygame.draw.circle(self.screen, self.green, self.player1Pos, self.playerSize, 0)
-        pygame.draw.circle(self.screen, self.red, self.player2.position, self.playerSize, 0)
+        # pygame.draw.circle(self.screen, self.red, self.player2.position, self.playerSize, 0)
         # pygame.draw.rect(
         # self.screen, self.red, [self.self.player2Pos[0]-self.playerSize/2,self.self.player2Pos[1]-self.playerSize/2, self.playerSize+1, self.playerSize+1], 0)
         pygame.draw.rect(self.screen, self.white, [self.ball1Pos[0], self.ball1Pos[1], 2, 2], 0)
@@ -232,6 +233,10 @@ class GameState:
 
         pygame.display.flip()
         self.initialized = 1
+
+        #print fps
+        # print(self.clock.get_fps())
+
         return self.isRunning
 
         # End of file
