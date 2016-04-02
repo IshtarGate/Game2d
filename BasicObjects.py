@@ -44,21 +44,6 @@ class Bullet:
         # calculate velocity
         self.velocity=calcVelocity(position,target)
 
-        """
-        clean below up
-        """
-        # self.opposite = target[1] - self.position[1]
-        # self.adjacent = target[0] - self.position[0]
-        # if self.adjacent == 0:
-        #     self.velocity = [0 ,self.opposite/abs(self.opposite)]
-        # elif self.opposite == 0:
-        #     self.velocity = [self.adjacent/abs(self.adjacent),0]
-        # else:
-        #     self.oppDir = self.opposite/abs(self.opposite)
-        #     self.adjDir = self.adjacent/abs(self.adjacent)
-        #     self.angle = math.atan(abs(self.opposite)/abs(self.adjacent))
-        #     self.velocity=[math.cos(self.angle)*self.adjDir,math.sin(self.angle)*self.oppDir]
-
     def update(self, player2Pos, playerSize):
         self.position[0] = self.position[0] + self.velocity[0]
         self.position[1] = self.position[1] + self.velocity[1]
