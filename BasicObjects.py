@@ -6,21 +6,37 @@ Created on Fri Feb 26 17:51:06 2016
 """
 
 import pygame
+import math
 
 
 class Bullet:
-    def __init__(self, position, life):
+    def __init__(self, surface, position, target, life):
         self.position = list(position)
         self.life = life
         self.isAlive = 1
-
+        self.surface = surface
+        self.target = target
+        # calculate velocity
+        self.opposite = self.target[1] - self.position[1]
+        self.adjacent = self.target[0] - self.position[0]
+        if self.adjacent == 0:
+            self.velocity = [0 ,self.opposite/abs(self.opposite)]
+        elif self.opposite == 0:
+            self.velocity = [self.adjacent/abs(self.adjacent),0]
+        else:
+            self.oppDir = self.opposite/abs(self.opposite)
+            self.adjDir = self.adjacent/abs(self.adjacent)
+            self.angle = math.atan(abs(self.opposite)/abs(self.adjacent))
+            self.velocity=[math.cos(self.angle)*self.adjDir,math.sin(self.angle)*self.oppDir]
     def update(self, player2Pos, playerSize):
-        self.position[0] = self.position[0] + 1
+        self.position[0] = self.position[0] + self.velocity[0]
+        self.position[1] = self.position[1] + self.velocity[1]
         self.life = self.life - 1
         if ((player2Pos[0] - self.position[0]) ** 2 + (player2Pos[1] - self.position[1]) ** 2) ** 0.5 < playerSize:
             self.isAlive = 0
         if self.life <= 0:
             self.isAlive = 0
+        pygame.draw.line(self.surface, (255,255,255), self.position,self.position, 1)
 
 
 class Player2:
@@ -116,7 +132,6 @@ class GameState:
         self.clock.tick(60)  # set the game to never run faster than 60 FPS
 
         for self.event in pygame.event.get():
-            # ENDGAME
             if self.event.type == pygame.QUIT:
                 self.isRunning = 0  # change self.isRunning to false
 
@@ -125,6 +140,13 @@ class GameState:
 
         # CONTROLS
         self.keys = pygame.key.get_pressed()  # get incoming keys every frame
+
+        # outputs booleans (0 or 1) if pressed: get_pressed() -> (button1, button2, button3)
+        self.mouse = pygame.mouse.get_pressed()
+
+        #get mouse cursor position
+        self.cursorPos = pygame.mouse.get_pos()
+
         # this seems more responsive than the "if event.key == pygame.K_a:" shit
 
         # Exit Game
@@ -141,10 +163,10 @@ class GameState:
         if self.keys[pygame.K_s]:  # down or +y
             self.player1Pos[1] += 1
         # fire bullet/ create enemy
-        if self.keys[pygame.K_j]:
+        if self.mouse[0] == 1: # old: keys[pygame.K_j]:
             # if shootWait=0 # add a wait timer
             # this appends an instance of the BasicEnemy class to self.enemiesList
-            self.enemiesList.append(Bullet(self.player1Pos, self.bulletLife))
+            self.enemiesList.append(Bullet(self.screen,self.player1Pos,pygame.mouse.get_pos(),self.bulletLife))
 
         # PLAYER 2 CONTROLS
         self.player2.update(self.keys)
@@ -182,9 +204,9 @@ class GameState:
         pygame.draw.rect(self.screen, self.white, [self.ball1Pos[0], self.ball1Pos[1], 2, 2], 0)
 
         # draw enemies
-        for i in list(range(len(self.enemiesList))):
-            pygame.draw.rect(self.screen, self.white,
-                             [self.enemiesList[i].position[0], self.enemiesList[i].position[1], 2, 2], 0)
+        # for i in list(range(len(self.enemiesList))):
+        #     pygame.draw.rect(self.screen, self.white,
+        #                      [self.enemiesList[i].position[0], self.enemiesList[i].position[1], 2, 2], 0)
             # pygame.draw.rect(self.screen, self.white, [self.enemiesList[i].position[0],self.enemiesList[i].position[0], 2, 2], 0)
         # pygame.draw.circle(self.screen,self.white,self.player1Pos,20 , 1)
         # circle(Surface, color, pos, radius, width=0)
