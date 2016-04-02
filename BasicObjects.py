@@ -8,6 +8,32 @@ Created on Fri Feb 26 17:51:06 2016
 import pygame
 import math
 
+def calcVelocity(position, target):
+    """
+    calculate velocity using position (start pos) and target (mouse pos)
+    :param position: [x,y]
+    :param target: [x,y]
+    :return: velocity -> [Vx,Vy]
+    """
+    opposite = target[1] - position[1]
+    adjacent = target[0] - position[0]
+
+    if adjacent == 0: # catches divide by zero error when adjacent == 0
+        velocity = [0 ,opposite/abs(opposite)]
+
+    elif opposite == 0: # catches divide by zero error when opposite == 0
+        velocity = [adjacent/abs(adjacent),0]
+
+    else: # all other cases
+        oppDir = opposite/abs(opposite)
+        adjDir = adjacent/abs(adjacent)
+
+        #used abs() to keep radians positive
+        angle = math.atan(abs(opposite)/abs(adjacent))
+
+        # corrected direction by multiplying by direction +1 -1
+        velocity=[math.cos(angle)*adjDir,math.sin(angle)*oppDir]
+    return velocity
 
 class Bullet:
     def __init__(self, surface, position, target, life):
@@ -15,19 +41,24 @@ class Bullet:
         self.life = life
         self.isAlive = 1
         self.surface = surface
-        self.target = target
         # calculate velocity
-        self.opposite = self.target[1] - self.position[1]
-        self.adjacent = self.target[0] - self.position[0]
-        if self.adjacent == 0:
-            self.velocity = [0 ,self.opposite/abs(self.opposite)]
-        elif self.opposite == 0:
-            self.velocity = [self.adjacent/abs(self.adjacent),0]
-        else:
-            self.oppDir = self.opposite/abs(self.opposite)
-            self.adjDir = self.adjacent/abs(self.adjacent)
-            self.angle = math.atan(abs(self.opposite)/abs(self.adjacent))
-            self.velocity=[math.cos(self.angle)*self.adjDir,math.sin(self.angle)*self.oppDir]
+        self.velocity=calcVelocity(position,target)
+
+        """
+        clean below up
+        """
+        # self.opposite = target[1] - self.position[1]
+        # self.adjacent = target[0] - self.position[0]
+        # if self.adjacent == 0:
+        #     self.velocity = [0 ,self.opposite/abs(self.opposite)]
+        # elif self.opposite == 0:
+        #     self.velocity = [self.adjacent/abs(self.adjacent),0]
+        # else:
+        #     self.oppDir = self.opposite/abs(self.opposite)
+        #     self.adjDir = self.adjacent/abs(self.adjacent)
+        #     self.angle = math.atan(abs(self.opposite)/abs(self.adjacent))
+        #     self.velocity=[math.cos(self.angle)*self.adjDir,math.sin(self.angle)*self.oppDir]
+
     def update(self, player2Pos, playerSize):
         self.position[0] = self.position[0] + self.velocity[0]
         self.position[1] = self.position[1] + self.velocity[1]
